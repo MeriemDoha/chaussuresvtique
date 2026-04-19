@@ -1,0 +1,223 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+  <title>ShoeStore</title>
+  <style> 
+  body {
+  margin: 0;
+  font-family: Arial;
+  background: #f4f4f4;
+}
+ 
+header {
+  background:black;
+  color: white;
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input, select {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+.cart {
+  background: white;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 220px);
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+footer {
+  background: #111;
+  color: white;
+  margin-top: 40px;
+  padding: 30px 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+footer h3, footer h4 {
+  margin-bottom: 10px;
+}
+
+footer p {
+  margin: 5px 0;
+  color: #ccc;
+}
+
+.copy {
+  text-align: center;
+  margin-top: 20px;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+  font-size: 14px;
+}
+header h1
+{
+  font-size: 48px;
+  font-weight: bold;
+  color: #d4af37; 
+}
+  </style>
+ </head>
+<body>
+
+<header>
+  <h1>INISTORE</h1>
+
+  <input type="text" id="search" placeholder="Search shoes...">
+
+  <select id="filter">
+    <option value="all">All</option>
+    <option value="nike">Nike</option>
+    <option value="adidas">Adidas</option>
+    <option value="puma">Puma</option>
+  </select>
+
+  <div class="cart">
+    🛒 <span id="count">0</span>
+  </div>
+</header>
+
+<section id="products"></section>
+<footer>
+  <div class="footer-container">
+
+    <div>
+      <h3>ShoeStore</h3>
+      <p>Best shoes store for modern style and comfort.</p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <p>Home</p>
+      <p>Products</p>
+      <p>Contact</p>
+    </div>
+
+    <div>
+      <h4>Contact</h4>
+      <p>Email: INISTORE@shoestore.com</p>
+      <p>Phone: +213 674 16 00 15</p>
+    </div>
+
+  </div>
+
+  <p class="copy">© 2026 ShoeStore. All rights reserved.</p>
+</footer>
+<script>
+const products = [
+  {
+    id: 1,
+    name: "Nike Air Max",
+    brand: "nike",
+    price: 120,
+    image:"images/Nike.jfif"
+
+  },
+  {
+    id: 2,
+    name: "Adidas Ultraboost",
+    brand: "adidas",
+    price: 140,
+    image:"images/download.jpg" 
+  },
+  {
+    id: 3,
+    name: "Puma Runner",
+    brand: "puma",
+    price: 90,
+    image: "images/puma2.jfif"
+  }
+];
+
+const container = document.getElementById("products");
+const search = document.getElementById("search");
+const filter = document.getElementById("filter");
+const count = document.getElementById("count");
+
+let cart = 0;
+
+function display(list) {
+  container.innerHTML = "";
+
+  list.forEach(p => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        <button onclick="addToCart()">Add to Cart</button>
+      </div>
+    `;
+  });
+}
+
+function addToCart() {
+  cart++;
+  count.textContent = cart;
+}
+
+function filterProducts() {
+  let text = search.value.toLowerCase();
+  let brand = filter.value;
+
+  let filtered = products.filter(p => {
+    return (
+      p.name.toLowerCase().includes(text) &&
+      (brand === "all" || p.brand === brand)
+    );
+  });
+
+  display(filtered);
+}
+
+search.addEventListener("keyup", filterProducts);
+filter.addEventListener("change", filterProducts);
+
+// initial load
+display(products);
+</script>
+</body>
+</html>
